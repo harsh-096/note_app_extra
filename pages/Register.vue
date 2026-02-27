@@ -1,5 +1,6 @@
 <script setup>
   import Swal from 'sweetalert2'
+  import { ArrowRight } from 'lucide-vue-next'
 
   definePageMeta({
     middleware: ['guest'],

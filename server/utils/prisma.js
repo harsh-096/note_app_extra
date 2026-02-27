@@ -13,7 +13,7 @@ export function getPrismaClient() {
   // Create the pool with specific settings for Supabase + Vercel
   const pool = new pg.Pool({ 
     connectionString,
-    max: 1, // Important: don't exhaust Supabase connections
+    max: 5, // Increased from 1 to allow multiple connections
     ssl: {
       rejectUnauthorized: false // This allows the connection to bypass certificate validation
     }
