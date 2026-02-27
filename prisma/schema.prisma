@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// schema.prisma
+
+model user {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  salt     String
+  notes    note[]
+}
+
+model note {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   user @relation(fields: [userId], references: [id])
+
+  // A note can have many history records
+  history note_history[]
+}
+
+// NEW TABLE: Stores the old versions
+model note_history {
+  id      Int      @id @default(autoincrement())
+  title   String
+  content String   @db.Text
+  savedAt DateTime @default(now()) // When this version was saved
+
+  // Link back to the main note
+  noteId Int
+  note   note @relation(fields: [noteId], references: [id], onDelete: Cascade)
+}
